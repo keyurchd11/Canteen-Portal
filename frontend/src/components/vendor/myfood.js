@@ -15,7 +15,7 @@ function MyFood(props) {
         let authBody = {
             authToken: authToken
         }
-        axios.post('http://localhost:5000/api/verifyUser', authBody)
+        axios.post('/api/api/verifyUser', authBody)
             .then(res => {
                 // console.log(res);
                 setUserID(res.data.id);
@@ -26,7 +26,7 @@ function MyFood(props) {
 
     useEffect(() => {
         axios
-            .get("http://localhost:5000/food")
+            .get("/api/food")
             .then((response) => {
                 const allItems = response.data.filter(food => { return food.vendorID == vendor });
                 setFood(allItems);

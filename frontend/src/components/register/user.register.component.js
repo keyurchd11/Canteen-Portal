@@ -70,7 +70,7 @@ export default class RegisterCustomers extends Component {
             batchName: this.state.userBatch,
         }
         console.log(user);
-        axios.post('http://localhost:5000/customer/register', user)
+        axios.post('/api/customer/register', user)
             .then(res => {
                 console.log(res.data.accessToken);
                 console.log(res.data);

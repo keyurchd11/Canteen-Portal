@@ -75,7 +75,7 @@ export default function ResponsiveDialog(props) {
     const placeOrder = () => {
         const totalCost = (basePrice + addOnsPrice) * quantity;
         const user = { authToken: localStorage.getItem("accessToken") };
-        axios.post('http://localhost:5000/customer/myDetails', user)
+        axios.post('/api/customer/myDetails', user)
             .then(res => {
                 console.log(res);
                 if (res.data.moneyLeft < totalCost) {
@@ -93,7 +93,7 @@ export default function ResponsiveDialog(props) {
                     cost: totalCost,
                 }
                 console.log(newOrder);
-                axios.post('http://localhost:5000/order/add', newOrder)
+                axios.post('/api/order/add', newOrder)
                     .then(res => {
 
                         let toAdd = Number(totalCost) * (-1);
@@ -102,7 +102,7 @@ export default function ResponsiveDialog(props) {
                             toAdd: Number(toAdd),
                             user_id: userID,
                         }
-                        axios.post('http://localhost:5000/customer/addMoney', bdy)
+                        axios.post('/api/customer/addMoney', bdy)
                             .then(res => {
                                 alert("Order Placed!");
                             })
@@ -155,7 +155,7 @@ export default function ResponsiveDialog(props) {
                 </DialogTitle>
                 <DialogContent>
 
-                    {foodItem != undefined ? <img src={"http://localhost:5000/images/" + foodItem.photo}></img> : <span></span>}
+                    {foodItem != undefined ? <img src={"/api/images/" + foodItem.photo}></img> : <span></span>}
                     <DialogContentText>
                         Select Addons:
 

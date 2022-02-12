@@ -18,7 +18,6 @@ export default class RegisterVendors extends Component {
         this.onChangeShopClosingTime = this.onChangeShopClosingTime.bind(this);
 
         this.onSubmit = this.onSubmit.bind(this);
-
         this.state = {
             shopManager: '',
             shopPassword: '',
@@ -32,6 +31,25 @@ export default class RegisterVendors extends Component {
             openTime: '10:00',
             closingTime: '20:00'
         }
+        const vendorDetails = { authToken: localStorage.getItem("accessToken")};
+        axios.post("/api/vendor/myDetails", vendorDetails)
+            .then(res => {
+                console.log(res);
+                this.setState({
+                    shopManager: res.data.managerName,
+                    shopPassword: '',
+                    shopName: res.data.shopName,
+                    shopEmail: res.data.email,
+                    shopContact: res.data.contactNumber,
+                    shopOH: res.data.oh,
+                    shopOM: res.data.om,
+                    shopCH: res.data.ch,
+                    shopCM: res.data.cm,
+                    openTime: String(res.data.oh)+":"+String(res.data.om),
+                    closingTime: String(res.data.ch)+":"+String(res.data.cm)
+                })
+            })
+            .catch((err) => alert(err));
     }
     onChangeShopOpenTime(e) {
         this.setState({
@@ -74,6 +92,7 @@ export default class RegisterVendors extends Component {
         const hr = Number(this.state.closingTime.split(':')[0]);
         const min = Number(this.state.closingTime.split(':')[1]);
         const vendor = {
+            authToken:localStorage.getItem("accessToken"),
             managerName: this.state.shopManager,
             email: this.state.shopEmail,
             password: this.state.shopPassword,
@@ -88,34 +107,15 @@ export default class RegisterVendors extends Component {
 
         console.log(vendor);
 
-        axios.post('http://localhost:5000/vendor/register', vendor)
+        axios.post('/api/vendor/update', vendor)
             .then((res) => {
-                console.log(res.data.accessToken);
-                console.log(res.data);
-                localStorage.setItem('accessToken', res.data.accessToken);
-                localStorage.setItem('userType', 1);
-                this.setState({ registered: true });
+                alert("Updated successfully!");
             })
             .catch((err) => {
                 if (err.response) {
                     alert(err.response.data);
                 }
             });
-
-        this.setState({
-            shopManager: '',
-            shopPassword: '',
-            shopName: '',
-            shopEmail: '',
-            shopContact: 0,
-            shopOH: 0,
-            shopOM: 0,
-            shopCH: 23,
-            shopCM: 59,
-            openTime: '10:00',
-            closingTime: '20:00',
-            registered: false,
-        })
     }
 
     render() {
@@ -146,15 +146,6 @@ export default class RegisterVendors extends Component {
                             className="form-control"
                             value={this.state.shopName}
                             onChange={this.onChangeShopName}
-                        />
-
-                        <label>Email: </label>
-                        <input type="text"
-                            required
-                            className="form-control"
-                            type="email"
-                            value={this.state.shopEmail}
-                            onChange={this.onChangeShopEmail}
                         />
 
                         <label>Contact: </label>
@@ -188,9 +179,6 @@ export default class RegisterVendors extends Component {
                         <input type="submit" value="Create User" className="btn btn-primary" />
                     </div>
                 </form>
-                {
-                    this.state.registered ? <Navigate to='/temp' /> : <span></span>
-                }
             </div>
         )
     }

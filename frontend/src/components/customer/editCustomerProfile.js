@@ -27,7 +27,7 @@ export default class EditCustomers extends Component {
         };
 
         const userDetails = { authToken: localStorage.getItem("accessToken") };
-        axios.post("http://localhost:5000/customer/myDetails", userDetails)
+        axios.post("/api/customer/myDetails", userDetails)
             .then(res => {
                 console.log(res.data);
                 this.setState({
@@ -87,7 +87,7 @@ export default class EditCustomers extends Component {
             batchName: this.state.userBatch,
         }
         console.log(user);
-        axios.post('http://localhost:5000/customer/update', user)
+        axios.post('/api/customer/update', user)
             .then(res => {
                 console.log("HEre");
                 alert("Updates made successfully!" + res);

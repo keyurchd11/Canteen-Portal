@@ -57,7 +57,7 @@ const FoodItemsList = (props) => {
     // getting data and processing it
     useEffect(() => {
         axios
-            .get("http://localhost:5000/food")
+            .get("/api/food")
             .then((response) => {
                 const allItems = response.data;
                 const tempSearchWords = [];
@@ -116,7 +116,7 @@ const FoodItemsList = (props) => {
         if (props.customerId != undefined) {
             setUserID(props.customerId);
             const user = { authToken: localStorage.getItem("accessToken") };
-            axios.post('http://localhost:5000/customer/myDetails', user)
+            axios.post('/api/customer/myDetails', user)
                 .then(res => {
                     updateFavItems(res.data.favoriteItems);
                     setCurrBalance(res.data.moneyLeft);
@@ -137,7 +137,7 @@ const FoodItemsList = (props) => {
             toAdd: Number(toAdd),
             user_id: userID,
         }
-        axios.post('http://localhost:5000/customer/addMoney', bdy)
+        axios.post('/api/customer/addMoney', bdy)
             .then(res => {
                 // alert(res.data);
                 console.log(res);
@@ -493,7 +493,7 @@ const FoodItemsList = (props) => {
                                         <TableCell>{foodItem.price}</TableCell>
                                         <TableCell>{foodItem.name}</TableCell>
                                         <TableCell>
-                                            <img height="50" width="70" src={"http://localhost:5000/images/" + String(foodItem.photo)}></img>
+                                            <img height="50" width="70" src={"/api/images/" + String(foodItem.photo)}></img>
                                         </TableCell>
                                         <TableCell>{foodItem.vendorName}</TableCell>
                                         <TableCell>
@@ -544,7 +544,7 @@ const FoodItemsList = (props) => {
                                                             authToken: localStorage.getItem("accessToken"),
                                                             newFavs: newFav
                                                         }
-                                                        axios.post("http://localhost:5000/customer/updateFavs", userDetail)
+                                                        axios.post("/api/customer/updateFavs", userDetail)
                                                             .then(res => console.log(res))
                                                             .catch(err => alert(err))
                                                     }}

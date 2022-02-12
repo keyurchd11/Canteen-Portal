@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom';
 
-
 export default class RegisterCustomers extends Component {
     constructor(props) {
         super(props);
@@ -38,27 +37,23 @@ export default class RegisterCustomers extends Component {
             password: this.state.userPassword,
         }
         console.log(user);
-        localStorage.setItem('accessToken', '-1');
-        axios.post('http://localhost:5000/customer/login', user)
+        axios.post('/api/vendor/login', user)
             .then(res => {
                 console.log(res.data.accessToken);
                 console.log(res.data);
                 localStorage.setItem('accessToken', res.data.accessToken);
-                localStorage.setItem('userType', 0);
-                console.log("NAv now");
+                localStorage.setItem('userType', 1);
                 this.setState({ loggedIn: true });
             })
             .catch((err) => {
-                if (err.response) {
-                    alert(err.response.data);
-                }
+                if (err.response != undefined)
+                    alert(err.response.data)
             });
         this.setState({
             userPassword: '',
             userEmail: '',
             loggedIn: false,
         })
-
     }
 
     render() {
@@ -88,7 +83,7 @@ export default class RegisterCustomers extends Component {
                     </div>
                 </form>
                 {
-                    this.state.loggedIn? <Navigate to='/dashboard'/> : <span></span>
+                    this.state.loggedIn ? <Navigate to='/dashboard' /> : <span></span>
                 }
             </div>
         )

@@ -24,7 +24,7 @@ function DisplayCard(props) {
             let foodID = orderDetails.foodID;
             let userID = orderDetails.customerID;
             const user = { user_id: userID };
-            axios.post("http://localhost:5000/customer/userInfo", user)
+            axios.post("/api/customer/userInfo", user)
                 .then(res => {
                     console.log("HERE");
                     console.log(res);
@@ -34,7 +34,7 @@ function DisplayCard(props) {
                     console.log(":(");
                     console.log(err);
                 });
-            axios.get("http://localhost:5000/food/" + foodID.toString())
+            axios.get("/api/food/" + foodID.toString())
                 .then(res => {
                     console.log("HERE");
                     console.log(res);
@@ -45,7 +45,7 @@ function DisplayCard(props) {
     }, [orderDetails]);
 
     const moveToNextStage = (e) => {
-        axios.get("http://localhost:5000/order")
+        axios.get("/api/order")
             .then(res => {
                 // console.log(res);
                 let vendorID = orderDetails.vendorID;
@@ -67,7 +67,7 @@ function DisplayCard(props) {
                     newState: currStage + 1
                 }
                 console.log(orderInfo);
-                axios.post("http://localhost:5000/order/changeState/" + String(orderDetails._id), orderInfo)
+                axios.post("/api/order/changeState/" + String(orderDetails._id), orderInfo)
                     .then(res => {
                         console.log(res);
                         setOrder({ ...orderDetails, status: currStage + 1 });
@@ -83,7 +83,7 @@ function DisplayCard(props) {
             newState: 5
         }
         console.log(orderInfo);
-        axios.post("http://localhost:5000/order/changeState/" + String(orderDetails._id), orderInfo)
+        axios.post("/api/order/changeState/" + String(orderDetails._id), orderInfo)
             .then(res => {
                 console.log(res);
                 setOrder({ ...orderDetails, status: 5 });
@@ -98,7 +98,7 @@ function DisplayCard(props) {
                     (
                         <div style={{ width: '18rem', margin: '2rem' }}>
                             <Card style={{ width: '18rem' }}>
-                                <Card.Img variant="top" src={"http://localhost:5000/images/" + foodDetails.photo} />
+                                <Card.Img variant="top" src={"/api/images/" + foodDetails.photo} />
                                 <Card.Body>
                                     <Card.Title>{foodDetails.name}</Card.Title>
                                     Placed at: {orderDetails.createdAt} <br></br>

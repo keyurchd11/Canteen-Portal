@@ -22,7 +22,7 @@ function MyOrders(props) {
             authToken: authToken
         }
 
-        axios.post('http://localhost:5000/api/verifyUser', authBody)
+        axios.post('/api/api/verifyUser', authBody)
             .then(res => {
                 setUserID(res.data.id);
             });
@@ -30,7 +30,7 @@ function MyOrders(props) {
 
     useEffect(() => {
         if (userID != -1) {
-            axios.get("http://localhost:5000/order")
+            axios.get("/api/order")
                 .then(res => {
                     // console.log(res);
                     let tempOrders = res.data.filter(orders => orders.customerID == userID);
@@ -39,7 +39,7 @@ function MyOrders(props) {
                 })
         }
         if (allFoods.length == 0) {
-            axios.get("http://localhost:5000/food")
+            axios.get("/api/food")
                 .then(res => {
                     let allTemp = res.data;
                     setAllFoods(allTemp);
@@ -57,10 +57,10 @@ function MyOrders(props) {
             const pars = {
                 newRating: newRate
             }
-            axios.post("http://localhost:5000/order/" + String(ord._id), pars)
+            axios.post("/api/order/" + String(ord._id), pars)
                 .then(res => {
                     const item = ord.foodID;
-                    axios.get("http://localhost:5000/order")
+                    axios.get("/api/order")
                         .then(res => {
                             // console.log(res);
                             let tempOrders = res.data.filter(orders => orders.customerID == userID);

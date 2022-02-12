@@ -15,7 +15,7 @@ const Dashboard = (props) => {
         let authBody = {
             authToken: authToken
         }
-        axios.post('http://localhost:5000/api/verifyUser', authBody)
+        axios.post('/api/api/verifyUser', authBody)
             .then(res => {
                 // console.log(res);
                 setUserID(res.data.id);

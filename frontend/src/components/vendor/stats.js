@@ -22,7 +22,7 @@ function VendorStats(props) {
         let authBody = {
             authToken: authToken
         }
-        axios.post('http://localhost:5000/api/verifyUser', authBody)
+        axios.post('/api/api/verifyUser', authBody)
             .then(res => {
                 // console.log(res);
                 setVendorID(res.data.id);
@@ -31,7 +31,7 @@ function VendorStats(props) {
 
     useEffect(() => {
         if (vendorID != "") {
-            axios.get("http://localhost:5000/order")
+            axios.get("/api/order")
                 .then(res => {
                     let tempOrders = res.data.filter(orders => { return orders.vendorID == vendorID });
                     tempOrders = tempOrders.filter(ord => { return ord.status == 4 });

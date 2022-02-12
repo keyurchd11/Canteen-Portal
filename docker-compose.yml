@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  frontend:
+    build:
+      context: "./frontend"
+      dockerfile: "Dockerfile"
+    ports:
+      - "3000:3000"
+    depends_on: 
+      - backend
+
+  backend:
+    build:
+      context: "./backend"
+      dockerfile: "Dockerfile"
+    env_file:
+      - "./backend/.env"
+    ports:
+      - "5000:5000"
+  
+  nginx:
+    image: "nginx:1.17.8"
+    ports:
+      - "80:80"
+    volumes:
+      - "./nginx:/etc/nginx/conf.d:ro"
+    depends_on:
+      - frontend
+      - backend

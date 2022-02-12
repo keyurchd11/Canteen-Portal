@@ -19,7 +19,7 @@ function VendorDashboard(props) {
 
     useEffect(() => {
         if (vendorID != "") {
-            axios.get("http://localhost:5000/order")
+            axios.get("/api/order")
                 .then(res => {
                     // console.log(res);
                     let tempOrders = res.data.filter(orders => orders.vendorID == vendorID);

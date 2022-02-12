@@ -66,7 +66,7 @@ const Food = () => {
         formData.append('vendorName', 'Trial');
 
 
-        axios.post('http://localhost:5000/food/add/', formData)
+        axios.post('/api/food/add/', formData)
             .then(res => {
                 console.log(res);
             })
